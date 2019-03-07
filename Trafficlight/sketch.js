@@ -18,8 +18,8 @@ function draw() {
   drawOutlineOfLights();
   determineState();
   drawColouredLights();
-  seconds = millis()/1000;
-  console.log(round(seconds));
+  seconds = rounds(millis()/1000);
+  console.log((seconds);
 }
 
 function drawOutlineOfLights() {
@@ -36,15 +36,31 @@ function drawOutlineOfLights() {
 }
 
 function determineState() {
-  if (seconds % 120 < 50){
+  if (seconds % 120 < 5.7){
     state = 1
   }
-  else if (seconds % 120 >= 50 && seconds % 120 < 60){
+  else if (seconds % 120 >= 57 && seconds % 120 < 60){
     state = 2;
+  }
+  else if (seconds % 120 >= 60){
+    state = 3
   }
 }
 
 function drawColouredLights() {
-  
-
+  if (state === 1){ // green
+    noStroke()
+    fill("green")
+    ellipse(width/2, height/2 + 65, 50, 50);
+  }
+  else if (state === 2){ // yellow
+    noStroke()
+    fill("yellow")
+    ellipse(width/2, height/2, 50, 50);
+  }
+  else if (state === 3){ // red
+    noStroke()
+    fill("red")
+    ellipse(width/2, height/2 - 65, 50, 50);
+  } 
 }
