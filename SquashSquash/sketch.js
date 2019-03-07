@@ -45,13 +45,8 @@ function squashBouncing(){ // controlls the squash hitting the paddles and wall
     vX *= -1.2;
     posX = 80;
   }
-  else if (posX <= 0){ // right scoring
-    posX = width/2;
-    vX = 5;
-    playerTwoPoints ++;
-  }
 
-  if ((posX >= width - scalar - 80) && (posY - playerTwoHeight <= 150) && (posY - playerTwoHeight > 0)){ // player two paddle
+  else if ((posX >= width - scalar - 80) && (posY - playerTwoHeight <= 150) && (posY - playerTwoHeight > 0)){ // player two paddle
     vX *= -1.2;
     posX = width - 80 - scalar;
   }
@@ -66,6 +61,7 @@ function squashBouncing(){ // controlls the squash hitting the paddles and wall
   }
   if (posX >= width - scalar){
     posX = width - scalar - 1
+    vX *= -1
   }
 }
 
@@ -124,7 +120,7 @@ function displayImages(){ // displays the squash and the paddles
 function displayText(){ // displays the score and the instructions at the start of the game
   textSize(12);
   text(playerOnePoints, 57, playerOneHeight + 75);
-  text(playerTwoPoints, width - 63, playerTwoHeight + 75);
+  text(playerTwoPoints, 93, playerTwoHeight + 75);
 
   seconds = millis()/1000;
   if (seconds <= 3){
