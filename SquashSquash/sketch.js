@@ -13,10 +13,10 @@ let squash;
 let scalar = 0;
 let playerOneHeight = 0;
 let playerTwoHeight = 0;
-let speedScalar = 1;
 let playerOnePoints = 0;
 let playerTwoPoints = 0;
 let seconds;
+let state;
 
 function setup(){
   document.addEventListener("contextmenu", event => event.preventDefault());
@@ -41,25 +41,26 @@ function draw() {
 }
 
 function squashBouncing(){ // controlls the squash hitting the paddles and wall
-  if (posX <= 80 && (posY - playerOneHeight <= 150) && (posY - playerOneHeight > 0)){ // player one paddle
+  if (posX <= 120 && (posY >= playerTwoHeight - scalar/2) && (posY <= playerTwoHeight + 150 + scalar/2)){ // player two paddle
     vX *= -1.2;
-    posX = 80;
+    posX = 121;
+    state = 2
   }
 
-  else if ((posX >= width - scalar - 80) && (posY - playerTwoHeight <= 150) && (posY - playerTwoHeight > 0)){ // player two paddle
+  else if (posX <= 80 && (posY >= playerOneHeight - scalar/2) && (posY <= playerOneHeight + 150 + scalar/2)){ // player one paddle
     vX *= -1.2;
-    posX = width - 80 - scalar;
+    posX = 80;
+    state = 1
   }
-  else if (posX >= width - scalar){ // left scoring
+  else if (posX <= 0){ // scoring
     posX = width/2;
     vX = -5;
-    playerOnePoints ++;
   }
 
   if ((posY <= 0) || (posY >= height - scalar)){ // ceiling and floor bouncing
     vY *= -1;
   }
-  if (posX >= width - scalar){
+  if (posX >= width - scalar){ // right wall bouncing
     posX = width - scalar - 1
     vX *= -1
   }
@@ -84,7 +85,6 @@ function keyboardEvents(){ // player one movement with the mouse and a reset but
     vY = 3.1;
     playerOneHeight = 0;
     playerTwoHeight = 0;
-    speedScalar = 1;
     playerOnePoints = 0;
     playerTwoPoints = 0;
     posX = width/2;
@@ -112,6 +112,15 @@ function moveSquash(){ // changes the position of the squash in accordance to th
 }
 
 function displayImages(){ // displays the squash and the paddles
+  if (state === 1){
+    tint(0, 153, 204)
+  }
+  if (state === 2){
+    tint(100, 0, 0)
+  }
+  else{
+    noTint()
+  }
   image(squash, posX, posY, scalar, scalar);
   rect(40, playerOneHeight, 40, 150);
   rect(80, playerTwoHeight, 40, 150);
@@ -119,13 +128,15 @@ function displayImages(){ // displays the squash and the paddles
 
 function displayText(){ // displays the score and the instructions at the start of the game
   textSize(12);
-  text(playerOnePoints, 57, playerOneHeight + 75);
-  text(playerTwoPoints, 93, playerTwoHeight + 75);
+  textAlign(CENTER);
+  text(playerOnePoints, 60, playerOneHeight + 75);
+  text(playerTwoPoints, 100, playerTwoHeight + 75);
 
   seconds = millis()/1000;
   if (seconds <= 3){
     textSize(36);
-    text("Use W and S to move Player One, and left and right mouse buttons to move Player Two", width/2 - 695, height/2)
-    text("Press R to reset", width/2 - 125, height/2 + 50);
+    textAlign(CENTER);
+    text("Use W and S to move Player One, and left and right mouse buttons to move Player Two", width/2, height/2)
+    text("Press R to reset", width/2, height/2 + 50);
   }
 }
