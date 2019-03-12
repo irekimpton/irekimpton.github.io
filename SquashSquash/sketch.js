@@ -38,6 +38,7 @@ function draw() {
   background(75);
   displayImages();
   displayText();
+  
 }
 
 function squashBouncing(){ // controlls the squash hitting the paddles and wall
@@ -45,12 +46,14 @@ function squashBouncing(){ // controlls the squash hitting the paddles and wall
     vX *= -1.2;
     posX = 121;
     state = 2
+    //tint("Blue")
   }
 
   else if (posX <= 80 && (posY >= playerOneHeight - scalar/2) && (posY <= playerOneHeight + 150 + scalar/2)){ // player one paddle
     vX *= -1.2;
     posX = 80;
     state = 1
+    //tint("Red")
   }
   else if (posX <= 0){ // scoring
     posX = width/2;
@@ -112,15 +115,6 @@ function moveSquash(){ // changes the position of the squash in accordance to th
 }
 
 function displayImages(){ // displays the squash and the paddles
-  if (state === 1){
-    tint(0, 153, 204)
-  }
-  if (state === 2){
-    tint(100, 0, 0)
-  }
-  else{
-    noTint()
-  }
   image(squash, posX, posY, scalar, scalar);
   rect(40, playerOneHeight, 40, 150);
   rect(80, playerTwoHeight, 40, 150);
