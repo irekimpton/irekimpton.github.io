@@ -13,7 +13,7 @@ function draw() {
             rect(x, y, 5, 5);
             stroke(255);
             strokeWeight(1)
-            line(width/2, height/2, x, y);
+            line(width/2, height/2, x + 2.5, y + 2.5);
         }
     }
 }

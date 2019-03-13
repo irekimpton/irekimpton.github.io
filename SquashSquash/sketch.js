@@ -8,7 +8,7 @@
 let posX;
 let posY;
 let vX = 3;
-let vY = 3.1;
+let vY = 5;
 let squash;
 let scalar = 0;
 let playerOneHeight = 0;
@@ -16,7 +16,7 @@ let playerTwoHeight = 0;
 let playerOnePoints = 0;
 let playerTwoPoints = 0;
 let seconds;
-let state;
+let squashState;
 
 function setup(){
   document.addEventListener("contextmenu", event => event.preventDefault());
@@ -28,6 +28,9 @@ function setup(){
 
 function preload(){
   squash = loadImage("assets/squashed.png");
+  blueSquash = loadImage("assets/squashBlue.png");
+  redSquash = loadImage("assets/squashRed.png");
+
 }
 
 function draw() {
@@ -45,15 +48,13 @@ function squashBouncing(){ // controlls the squash hitting the paddles and wall
   if (posX <= 120 && (posY >= playerTwoHeight - scalar/2) && (posY <= playerTwoHeight + 150 + scalar/2)){ // player two paddle
     vX *= -1.2;
     posX = 121;
-    state = 2
-    //tint("Blue")
+    squashState = "blue"
   }
 
   else if (posX <= 80 && (posY >= playerOneHeight - scalar/2) && (posY <= playerOneHeight + 150 + scalar/2)){ // player one paddle
     vX *= -1.2;
     posX = 80;
-    state = 1
-    //tint("Red")
+    squashState = "red"
   }
   else if (posX <= 0){ // scoring
     posX = width/2;
@@ -115,21 +116,34 @@ function moveSquash(){ // changes the position of the squash in accordance to th
 }
 
 function displayImages(){ // displays the squash and the paddles
-  image(squash, posX, posY, scalar, scalar);
+  if (squashState === "red"){
+    image(redSquash, posX, posY, scalar, scalar);
+  }
+  else if (squashState === "blue") {
+    image(blueSquash, posX, posY, scalar, scalar);
+  }
+  else {
+    image(squash, posX, posY, scalar, scalar);
+  }
+  fill("RED")
   rect(40, playerOneHeight, 40, 150);
+  fill("BLUE")
   rect(80, playerTwoHeight, 40, 150);
 }
 
 function displayText(){ // displays the score and the instructions at the start of the game
-  textSize(12);
+  textSize(16);
   textAlign(CENTER);
+  fill("BLUE")
   text(playerOnePoints, 60, playerOneHeight + 75);
+  fill("RED")
   text(playerTwoPoints, 100, playerTwoHeight + 75);
 
   seconds = millis()/1000;
   if (seconds <= 3){
     textSize(36);
     textAlign(CENTER);
+    fill(0)
     text("Use W and S to move Player One, and left and right mouse buttons to move Player Two", width/2, height/2)
     text("Press R to reset", width/2, height/2 + 50);
   }
