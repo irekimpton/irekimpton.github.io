@@ -26,6 +26,7 @@ function setup(){
   posY = height/2;
   scalar = 50;
   mainState = 1;
+  squashState = "noState";
 }
 
 function preload(){
@@ -52,7 +53,7 @@ function draw() {
 }
 
 function squashBouncing(){ // controlls the squash hitting the paddles and wall
-  if (posX <= 120 && (posY >= playerTwoHeight - scalar/2) && (posY <= playerTwoHeight + 150 + scalar/2)){ // player two paddle
+  if (posX <= 120 && (posY >= playerTwoHeight - scalar/2) && (posY <= playerTwoHeight + 150 + scalar/2) && (squashState === "red" || squashState === "noState")){ // player two paddle
     vX *= -1.2;
     posX = 121;
     squashState = "blue";
@@ -61,7 +62,7 @@ function squashBouncing(){ // controlls the squash hitting the paddles and wall
   else if (posX <= 80 && (posY >= playerOneHeight - scalar/2) && (posY <= playerOneHeight + 150 + scalar/2)){ // player one paddle
     vX *= -1.2;
     posX = 80;
-    squashState = "red";
+    squashState = "rightRed";
   }
   else if (posX <= 0){ // scoring
     posX = width/2;
@@ -79,6 +80,9 @@ function squashBouncing(){ // controlls the squash hitting the paddles and wall
     vY *= -1;
   }
   if (posX >= width - scalar){ // right wall bouncing
+    if (squashState === "rightRed"){
+      squashState = "red";
+    }
     posX = width - scalar - 1;
     vX *= -1;
   }
@@ -133,6 +137,9 @@ function moveSquash(){ // changes the position of the squash in accordance to th
 function displayImages(){ // displays the squash and the paddles
   imageMode(CORNER)
   if (squashState === "red"){
+    image(redSquash, posX, posY, scalar, scalar);
+  }
+  if (squashState === "rightRed"){
     image(redSquash, posX, posY, scalar, scalar);
   }
   else if (squashState === "blue"){
