@@ -17,6 +17,7 @@ let playerOnePoints = 0;
 let playerTwoPoints = 0;
 let seconds;
 let squashState;
+let mainState;
 
 function setup(){
   document.addEventListener("contextmenu", event => event.preventDefault());
@@ -24,6 +25,7 @@ function setup(){
   posX = width/2;
   posY = height/2;
   scalar = 50;
+  mainState = 1;
 }
 
 function preload(){
@@ -34,44 +36,56 @@ function preload(){
 }
 
 function draw() {
-  squashBouncing();
-  keyboardEvents();
-  mouseEvents();
-  moveSquash();
-  background(75);
-  displayImages();
-  displayText();
-  
+  if (mainState === 1){
+    menu()
+
+  }
+  else if (mainState === 2){
+    squashBouncing();
+    keyboardEvents();
+    mouseEvents();
+    moveSquash();
+    background(75);
+    displayImages();
+    displayText();
+  }
 }
 
 function squashBouncing(){ // controlls the squash hitting the paddles and wall
   if (posX <= 120 && (posY >= playerTwoHeight - scalar/2) && (posY <= playerTwoHeight + 150 + scalar/2)){ // player two paddle
     vX *= -1.2;
     posX = 121;
-    squashState = "blue"
+    squashState = "blue";
   }
 
   else if (posX <= 80 && (posY >= playerOneHeight - scalar/2) && (posY <= playerOneHeight + 150 + scalar/2)){ // player one paddle
     vX *= -1.2;
     posX = 80;
-    squashState = "red"
+    squashState = "red";
   }
   else if (posX <= 0){ // scoring
     posX = width/2;
     vX = -5;
+    if (squashState === "blue"){
+      playerTwoPoints ++;
+    }
+    else if (squashState === "red"){
+      playerOnePoints ++;
+    }
+    squashState = 0;
   }
 
   if ((posY <= 0) || (posY >= height - scalar)){ // ceiling and floor bouncing
     vY *= -1;
   }
   if (posX >= width - scalar){ // right wall bouncing
-    posX = width - scalar - 1
-    vX *= -1
+    posX = width - scalar - 1;
+    vX *= -1;
   }
 }
 
 function keyReleased(){
-  key = "noPress"
+  key = "noPress";
 }
 
 function keyboardEvents(){ // player one movement with the mouse and a reset button
@@ -93,6 +107,7 @@ function keyboardEvents(){ // player one movement with the mouse and a reset but
     playerTwoPoints = 0;
     posX = width/2;
     posY = height/2;
+    mainState = 1;
   }
 }
 
@@ -116,27 +131,28 @@ function moveSquash(){ // changes the position of the squash in accordance to th
 }
 
 function displayImages(){ // displays the squash and the paddles
+  imageMode(CORNER)
   if (squashState === "red"){
     image(redSquash, posX, posY, scalar, scalar);
   }
-  else if (squashState === "blue") {
+  else if (squashState === "blue"){
     image(blueSquash, posX, posY, scalar, scalar);
   }
   else {
     image(squash, posX, posY, scalar, scalar);
   }
-  fill("RED")
+  fill("RED");
   rect(40, playerOneHeight, 40, 150);
-  fill("BLUE")
+  fill("BLUE");
   rect(80, playerTwoHeight, 40, 150);
 }
 
 function displayText(){ // displays the score and the instructions at the start of the game
   textSize(16);
   textAlign(CENTER);
-  fill("BLUE")
+  fill("BLUE");
   text(playerOnePoints, 60, playerOneHeight + 75);
-  fill("RED")
+  fill("RED");
   text(playerTwoPoints, 100, playerTwoHeight + 75);
 
   seconds = millis()/1000;
@@ -144,7 +160,16 @@ function displayText(){ // displays the score and the instructions at the start 
     textSize(36);
     textAlign(CENTER);
     fill(0)
-    text("Use W and S to move Player One, and left and right mouse buttons to move Player Two", width/2, height/2)
+    text("Use W and S to move Player One", width/2, height/2 - 50);
+    text("Use left and right mouse buttons to move Player Two", width/2, height/2);
     text("Press R to reset", width/2, height/2 + 50);
+  }
+}
+
+function menu(){
+  imageMode(CENTER);
+  image(squash, width/2, height/2, width/4, height/3);
+  if (mouseX >= width/2 - width/8 && mouseX <= width/2 + width/8 && mouseY >= height/2 - height/6 && mouseY <= height/2 + height/6){
+    mainState = 2
   }
 }
