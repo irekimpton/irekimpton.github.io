@@ -136,10 +136,7 @@ function moveSquash(){ // changes the position of the squash in accordance to th
 
 function displayImages(){ // displays the squash and the paddles
   imageMode(CORNER)
-  if (squashState === "red"){
-    image(redSquash, posX, posY, scalar, scalar);
-  }
-  if (squashState === "rightRed"){
+  if (squashState === "red" || squashState === "rightRed"){
     image(redSquash, posX, posY, scalar, scalar);
   }
   else if (squashState === "blue"){
