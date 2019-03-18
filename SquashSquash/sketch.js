@@ -18,6 +18,8 @@ let playerTwoPoints = 0;
 let seconds;
 let squashState;
 let mainState;
+let squashMenuOne;
+let squashMenuTwo;
 
 function setup(){
   document.addEventListener("contextmenu", event => event.preventDefault());
@@ -33,7 +35,8 @@ function preload(){
   squash = loadImage("assets/squashed.png");
   blueSquash = loadImage("assets/squashBlue.png");
   redSquash = loadImage("assets/squashRed.png");
-
+  squashMenuOne - loadImage("assets/squashMenuOne.png");
+  squashMenuTwo - loadImage("assets/squashMenuTwo.png");
 }
 
 function draw() {
@@ -53,7 +56,7 @@ function draw() {
 }
 
 function squashBouncing(){ // controlls the squash hitting the paddles and wall
-  if (posX <= 120 && (posY >= playerTwoHeight - scalar/2) && (posY <= playerTwoHeight + 150 + scalar/2) && (squashState === "red" || squashState === "noState")){ // player two paddle
+  if (posX <= 120 && (posY >= playerTwoHeight - scalar/2) && (posY <= playerTwoHeight + 150 + scalar/2) && (squashState != "blue" && squashState != "rightRed")){ // player two paddle
     vX *= -1.2;
     posX = 121;
     squashState = "blue";
@@ -172,8 +175,13 @@ function displayText(){ // displays the score and the instructions at the start 
 
 function menu(){
   imageMode(CENTER);
-  image(squash, width/2, height/2, width/4, height/3);
   if (mouseX >= width/2 - width/8 && mouseX <= width/2 + width/8 && mouseY >= height/2 - height/6 && mouseY <= height/2 + height/6){
+    image(squashMenuTwo, width/2, height/2, width/4, height/3);
+  }
+  else if (mouseX >= width/2 - width/8 && mouseX <= width/2 + width/8 && mouseY >= height/2 - height/6 && mouseY <= height/2 + height/6 && mouseIsPressed){
     mainState = 2
+  }
+  else{
+    image(squashMenuOne, width/2, height/2, width/4, height/3);
   }
 }
