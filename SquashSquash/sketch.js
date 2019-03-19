@@ -20,6 +20,7 @@ let squashState;
 let mainState;
 let squashMenuOne;
 let squashMenuTwo;
+let menuScalar;
 
 function setup(){
   document.addEventListener("contextmenu", event => event.preventDefault());
@@ -29,20 +30,26 @@ function setup(){
   scalar = 50;
   mainState = 1;
   squashState = "noState";
+  if (height > width){
+    menuScalar = width/2
+  }
+  else{
+    menuScalar = height/2
+  }
 }
 
 function preload(){
   squash = loadImage("assets/squashed.png");
   blueSquash = loadImage("assets/squashBlue.png");
   redSquash = loadImage("assets/squashRed.png");
-  squashMenuOne - loadImage("assets/squashMenuOne.png");
-  squashMenuTwo - loadImage("assets/squashMenuTwo.png");
+  squashMenuOne = loadImage("assets/squashMenuOne.png");
+  squashMenuTwo = loadImage("assets/squashMenuTwo.png");
 }
 
 function draw() {
   if (mainState === 1){
-    menu()
-
+    background(75);
+    menu();
   }
   else if (mainState === 2){
     squashBouncing();
@@ -81,6 +88,12 @@ function squashBouncing(){ // controlls the squash hitting the paddles and wall
 
   if ((posY <= 0) || (posY >= height - scalar)){ // ceiling and floor bouncing
     vY *= -1;
+    if (posY < 0){
+      posY = 1
+    }
+    else if (posY > windowHeight - scalar){
+      posY = windowHeight - scalar - 1
+    }
   }
   if (posX >= width - scalar){ // right wall bouncing
     if (squashState === "rightRed"){
@@ -175,13 +188,18 @@ function displayText(){ // displays the score and the instructions at the start 
 
 function menu(){
   imageMode(CENTER);
-  if (mouseX >= width/2 - width/8 && mouseX <= width/2 + width/8 && mouseY >= height/2 - height/6 && mouseY <= height/2 + height/6){
-    image(squashMenuTwo, width/2, height/2, width/4, height/3);
+  if (mouseX >= width/2 - menuScalar/2 && mouseX <= width/2 + menuScalar/2 && mouseY >= height/2 - menuScalar/2 && mouseY <= height/2 + menuScalar/2 && mouseIsPressed){
+    console.log(mouseIsPressed);
+    mainState = 2;
   }
-  else if (mouseX >= width/2 - width/8 && mouseX <= width/2 + width/8 && mouseY >= height/2 - height/6 && mouseY <= height/2 + height/6 && mouseIsPressed){
-    mainState = 2
+  else if (mouseX >= width/2 - menuScalar/2 && mouseX <= width/2 + menuScalar/2 && mouseY >= height/2 - menuScalar/2 && mouseY <= height/2 + menuScalar/2){
+    image(squashMenuTwo, width/2, height/2, menuScalar, menuScalar);
   }
   else{
-    image(squashMenuOne, width/2, height/2, width/4, height/3);
+    image(squashMenuOne, width/2, height/2, menuScalar, menuScalar);
   }
+}
+
+function windowResized() {
+  createCanvas(windowWidth, windowHeight);
 }
