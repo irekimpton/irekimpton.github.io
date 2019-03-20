@@ -28,7 +28,7 @@ function setup(){
   posX = width/2;
   posY = height/2;
   scalar = 50;
-  mainState = 1;
+  mainState = "MENU";
   squashState = "noState";
   if (height > width){
     menuScalar = width/2
@@ -47,11 +47,11 @@ function preload(){
 }
 
 function draw() {
-  if (mainState === 1){
+  if (mainState === "MENU"){
     background(75);
     menu();
   }
-  else if (mainState === 2){
+  else if (mainState === "GAME"){
     squashBouncing();
     keyboardEvents();
     mouseEvents();
@@ -59,6 +59,11 @@ function draw() {
     background(75);
     displayImages();
     displayText();
+  }
+
+  else if (mainState === "RULES"){
+    background(75);
+    rulesMenu();
   }
 }
 
@@ -174,29 +179,59 @@ function displayText(){ // displays the score and the instructions at the start 
   text(playerOnePoints, 60, playerOneHeight + 75);
   fill("RED");
   text(playerTwoPoints, 100, playerTwoHeight + 75);
-
-  seconds = millis()/1000;
-  if (seconds <= 3){
-    textSize(36);
-    textAlign(CENTER);
-    fill(0)
-    text("Use W and S to move Player One", width/2, height/2 - 50);
-    text("Use left and right mouse buttons to move Player Two", width/2, height/2);
-    text("Press R to reset", width/2, height/2 + 50);
-  }
 }
 
 function menu(){
   imageMode(CENTER);
+  textAlign(CENTER);
+  textSize(menuScalar/4);
   if (mouseX >= width/2 - menuScalar/2 && mouseX <= width/2 + menuScalar/2 && mouseY >= height/2 - menuScalar/2 && mouseY <= height/2 + menuScalar/2 && mouseIsPressed){
-    console.log(mouseIsPressed);
-    mainState = 2;
+    mainState = "GAME";
   }
   else if (mouseX >= width/2 - menuScalar/2 && mouseX <= width/2 + menuScalar/2 && mouseY >= height/2 - menuScalar/2 && mouseY <= height/2 + menuScalar/2){
     image(squashMenuTwo, width/2, height/2, menuScalar, menuScalar);
+    text("PLAY", width/2, height/2 + scalar/2);
   }
   else{
     image(squashMenuOne, width/2, height/2, menuScalar, menuScalar);
+    text("PLAY", width/2, height/2 + scalar/2);
+  }
+
+  textSize(menuScalar/8);
+  if (mouseX >= width/4 - menuScalar/4 && mouseX <= width/4 + menuScalar/4 && mouseY >= height/2 - menuScalar/4 && mouseY <= height/2 + menuScalar/4 && mouseIsPressed){
+    mainState = "RULES";
+  }
+  else if (mouseX >= width/4 - menuScalar/4 && mouseX <= width/4 + menuScalar/4 && mouseY >= height/2 - menuScalar/4 && mouseY <= height/2 + menuScalar/4){
+    image(squashMenuTwo, width/4, height/2, menuScalar/2, menuScalar/2);
+    text("RULES", width/4, height/2 + scalar/2);
+  }
+  else{
+    image(squashMenuOne, width/4, height/2, menuScalar/2, menuScalar/2);
+    text("RULES", width/4, height/2 + scalar/2);
+  }
+}
+
+function rulesMenu(){ // displays the score and the instructions at the start of the game
+  textSize(36);
+  textAlign(CENTER);
+  fill(0)
+  text("Use W and S to move Player One", width/2, height/2 - 50);
+  text("Use left and right mouse buttons to move Player Two", width/2, height/2);
+  text("Press R to reset", width/2, height/2 + 50);
+
+  textSize(menuScalar/16);
+  imageMode(CORNER);
+  textAlign(CENTER);
+  if (mouseX >= 0 && mouseX <= menuScalar/4 && mouseY >= 0 && mouseY <= menuScalar/4 && mouseIsPressed){
+    mainState = "MENU";
+  }
+  else if (mouseX >= 0 && mouseX <= menuScalar/4 && mouseY >= 0 && mouseY <= menuScalar/4){
+    image(squashMenuTwo, 0, 0, menuScalar/4, menuScalar/4);
+    text("BACK", menuScalar/8, menuScalar/8 + menuScalar/32);
+  }
+  else{
+    image(squashMenuOne, 0, 0, menuScalar/4, menuScalar/4);
+    text("BACK", menuScalar/8, menuScalar/8 + menuScalar/32);
   }
 }
 
