@@ -21,6 +21,7 @@ let mainState;
 let squashMenuOne;
 let squashMenuTwo;
 let menuScalar;
+let squish;
 
 function setup(){
   document.addEventListener("contextmenu", event => event.preventDefault());
@@ -44,6 +45,8 @@ function preload(){
   redSquash = loadImage("assets/squashRed.png");
   squashMenuOne = loadImage("assets/squashMenuOne.png");
   squashMenuTwo = loadImage("assets/squashMenuTwo.png");
+  soundFormats('mp3');
+  squish = loadSound('assets/squish.mp3');
 }
 
 function draw() {
@@ -72,12 +75,16 @@ function squashBouncing(){ // controlls the squash hitting the paddles and wall
     vX *= -1.2;
     posX = 121;
     squashState = "blue";
+    squish.setVolume(0.2);
+    squish.play();
   }
 
-  else if (posX <= 80 && (posY >= playerOneHeight - scalar/2) && (posY <= playerOneHeight + 150 + scalar/2)){ // player one paddle
+  else if (posX <= 80 && posY >= playerOneHeight - scalar/2 && posY <= playerOneHeight + 150 + scalar/2 && squashState != "red"){ // player one paddle
     vX *= -1.2;
     posX = 80;
     squashState = "rightRed";
+    squish.setVolume(0.2);
+    squish.play();
   }
   else if (posX <= 0){ // scoring
     posX = width/2;
@@ -99,6 +106,8 @@ function squashBouncing(){ // controlls the squash hitting the paddles and wall
     else if (posY > windowHeight - scalar){
       posY = windowHeight - scalar - 1
     }
+    squish.setVolume(0.2);
+    squish.play();
   }
   if (posX >= width - scalar){ // right wall bouncing
     if (squashState === "rightRed"){
@@ -106,6 +115,8 @@ function squashBouncing(){ // controlls the squash hitting the paddles and wall
     }
     posX = width - scalar - 1;
     vX *= -1;
+    squish.setVolume(0.2);
+    squish.play();
   }
 }
 
@@ -190,11 +201,11 @@ function menu(){
   }
   else if (mouseX >= width/2 - menuScalar/2 && mouseX <= width/2 + menuScalar/2 && mouseY >= height/2 - menuScalar/2 && mouseY <= height/2 + menuScalar/2){
     image(squashMenuTwo, width/2, height/2, menuScalar, menuScalar);
-    text("PLAY", width/2, height/2 + scalar/2);
+    text("PLAY", width/2, height/2 + menuScalar/6);
   }
   else{
     image(squashMenuOne, width/2, height/2, menuScalar, menuScalar);
-    text("PLAY", width/2, height/2 + scalar/2);
+    text("PLAY", width/2, height/2 + menuScalar/6);
   }
 
   textSize(menuScalar/8);
