@@ -22,10 +22,13 @@ let squashMenuOne;
 let squashMenuTwo;
 let menuScalar;
 let squish;
+let music;
 
 function setup(){
   document.addEventListener("contextmenu", event => event.preventDefault());
   createCanvas(windowWidth, windowHeight);
+  music.setVolume(0.6);
+  music.loop();
   posX = width/2;
   posY = height/2;
   scalar = 50;
@@ -47,6 +50,7 @@ function preload(){
   squashMenuTwo = loadImage("assets/squashMenuTwo.png");
   soundFormats('mp3');
   squish = loadSound('assets/squish.mp3');
+  music = loadSound('assets/sweetDreamsEdit.mp3');
 }
 
 function draw() {
@@ -75,7 +79,7 @@ function squashBouncing(){ // controlls the squash hitting the paddles and wall
     vX *= -1.2;
     posX = 121;
     squashState = "blue";
-    squish.setVolume(0.2);
+    squish.setVolume(0.5);
     squish.play();
   }
 
@@ -83,7 +87,7 @@ function squashBouncing(){ // controlls the squash hitting the paddles and wall
     vX *= -1.2;
     posX = 80;
     squashState = "rightRed";
-    squish.setVolume(0.2);
+    squish.setVolume(0.5);
     squish.play();
   }
   else if (posX <= 0){ // scoring
@@ -106,7 +110,7 @@ function squashBouncing(){ // controlls the squash hitting the paddles and wall
     else if (posY > windowHeight - scalar){
       posY = windowHeight - scalar - 1
     }
-    squish.setVolume(0.2);
+    squish.setVolume(0.5);
     squish.play();
   }
   if (posX >= width - scalar){ // right wall bouncing
@@ -115,7 +119,7 @@ function squashBouncing(){ // controlls the squash hitting the paddles and wall
     }
     posX = width - scalar - 1;
     vX *= -1;
-    squish.setVolume(0.2);
+    squish.setVolume(0.5);
     squish.play();
   }
 }
