@@ -1,9 +1,9 @@
 // Interactive Scene - Squash Squash
 // Ian Kimpton
-// March 5th
+// March 25th
 //
 // Extra for Experts:
-// I added updating text scores, used the millis function to make a line of text dissapear after 5 seconds
+// I added sounds, background music, and more vegetables
 
 let posX;
 let posY;
