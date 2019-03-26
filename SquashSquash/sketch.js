@@ -22,17 +22,18 @@ let squashMenuOne;
 let squashMenuTwo;
 let menuScalar;
 let squish;
+let splat;
 let music;
+let backgroundSquashes;
 
 function setup(){
   document.addEventListener("contextmenu", event => event.preventDefault());
   createCanvas(windowWidth, windowHeight);
-  music.setVolume(0.6);
-  music.loop();
   posX = width/2;
   posY = height/2;
   scalar = 50;
   mainState = "MENU";
+  drums.loop();
   squashState = "noState";
   if (height > width){
     menuScalar = width/2
@@ -46,11 +47,14 @@ function preload(){
   squash = loadImage("assets/squashed.png");
   blueSquash = loadImage("assets/squashBlue.png");
   redSquash = loadImage("assets/squashRed.png");
+  backgroundSquashes = loadImage("assets/background.jpg");
   squashMenuOne = loadImage("assets/squashMenuOne.png");
   squashMenuTwo = loadImage("assets/squashMenuTwo.png");
   soundFormats('mp3');
   squish = loadSound('assets/squish.mp3');
+  splat = loadSound('assets/splat.mp3');
   music = loadSound('assets/sweetDreamsEdit.mp3');
+  drums = loadSound('assets/LoopDrums.mp3');
 }
 
 function draw() {
@@ -63,7 +67,7 @@ function draw() {
     keyboardEvents();
     mouseEvents();
     moveSquash();
-    background(75);
+    image(backgroundSquashes, 0, 0, width, height);
     displayImages();
     displayText();
   }
@@ -201,7 +205,12 @@ function menu(){
   textAlign(CENTER);
   textSize(menuScalar/4);
   if (mouseX >= width/2 - menuScalar/2 && mouseX <= width/2 + menuScalar/2 && mouseY >= height/2 - menuScalar/2 && mouseY <= height/2 + menuScalar/2 && mouseIsPressed){
+    drums.stop();
+    splat.setVolume(0.5);
+    splat.play();
     mainState = "GAME";
+    music.setVolume(0.6);
+    music.loop();
   }
   else if (mouseX >= width/2 - menuScalar/2 && mouseX <= width/2 + menuScalar/2 && mouseY >= height/2 - menuScalar/2 && mouseY <= height/2 + menuScalar/2){
     image(squashMenuTwo, width/2, height/2, menuScalar, menuScalar);
@@ -215,6 +224,8 @@ function menu(){
   textSize(menuScalar/8);
   if (mouseX >= width/4 - menuScalar/4 && mouseX <= width/4 + menuScalar/4 && mouseY >= height/2 - menuScalar/4 && mouseY <= height/2 + menuScalar/4 && mouseIsPressed){
     mainState = "RULES";
+    splat.setVolume(0.5);
+    splat.play();
   }
   else if (mouseX >= width/4 - menuScalar/4 && mouseX <= width/4 + menuScalar/4 && mouseY >= height/2 - menuScalar/4 && mouseY <= height/2 + menuScalar/4){
     image(squashMenuTwo, width/4, height/2, menuScalar/2, menuScalar/2);
@@ -239,6 +250,8 @@ function rulesMenu(){ // displays the score and the instructions at the start of
   textAlign(CENTER);
   if (mouseX >= 0 && mouseX <= menuScalar/4 && mouseY >= 0 && mouseY <= menuScalar/4 && mouseIsPressed){
     mainState = "MENU";
+    splat.setVolume(0.5);
+    splat.play();
   }
   else if (mouseX >= 0 && mouseX <= menuScalar/4 && mouseY >= 0 && mouseY <= menuScalar/4){
     image(squashMenuTwo, 0, 0, menuScalar/4, menuScalar/4);
