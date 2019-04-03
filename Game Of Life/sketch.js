@@ -8,10 +8,11 @@
 let gridSize = 50;
 let grid;
 let cellSize;
+let autoPlay
 
 function setup() {
   if (windowHeight > windowWidth){
-    createCanvas(windowWidth, windowWidth);
+    createCanvas(windowWidth, windowWidth); 
   }
   else{
     createCanvas(windowHeight, windowHeight);
@@ -64,21 +65,34 @@ function displayGrid(){
 function mousePressed(){
   let xCoord = floor(mouseX/cellSize);
   let yCoord = floor(mouseY/cellSize);
-  console.log(xCoord, yCoord);
   if (grid[yCoord][xCoord] === 1){
-    grid[yCoord][xCoord] = 0
+    grid[yCoord][xCoord] = 0;
   }
   else{
-    grid[yCoord][xCoord] = 1
+    grid[yCoord][xCoord] = 1;
   }
 }
 
 function keyPressed(){
   if (key === " "){
-    updateGame()
+    window.clearInterval(autoPlay);
+    updateGame();
   }
   if (key === "w"){
     grid = create2dArray(gridSize, gridSize);
+  }
+  if (key === "a"){
+    autoPlay = window.setInterval(updateGame, 50);
+  }
+  if (key === "r"){
+    grid = createRandom2dArray(gridSize, gridSize);
+  }
+  if (key === "s"){
+    saveJSON(grid, "thegrid.json");
+  }
+  if (key === "g"){
+    noLoop();
+    grid = loadJSON("assets/gosper.json", loadingComplete);
   }
 }
 
@@ -111,4 +125,8 @@ function updateGame(){
     }
   }
   grid = newGrid;
+}
+
+function loadingComplete(){
+  loop();
 }
