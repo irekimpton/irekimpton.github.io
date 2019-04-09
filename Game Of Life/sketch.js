@@ -94,6 +94,14 @@ function keyPressed(){
     noLoop();
     grid = loadJSON("assets/gosper.json", loadingComplete);
   }
+  if (key === "d"){
+    noLoop();
+    grid = loadJSON("assets/diagonalLine.json", loadingComplete);
+  }
+  if (key === "x"){
+    noLoop();
+    grid = loadJSON("assets/bigX.json", loadingComplete);
+  }
 }
 
 function updateGame(){
