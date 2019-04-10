@@ -10,21 +10,24 @@ let gameMode;
 let paused;
 let menuSize;
 let gameMenuGrid;
-let gridSize;
+let menuGridSize;
+let menuScalar;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  menuSize = width-200
+  menuScalar = height/12
+  menuSize = height-menuScalar*4
   gameMode = "game";
   paused = false;
 
   rectMode(CENTER)
 
-  gridSize = 5;
-  gameMenuGrid = create2dArray(gridSize, gridSize);
+  menuGridSize = 5;
+  gameMenuGrid = create2dArray(menuGridSize, menuGridSize);
 }
 
 function draw() {
+  background(75);
   if (gameMode === "menu"){
   }
 
@@ -33,7 +36,6 @@ function draw() {
       gameMenuDrawLoop();
     }
     if (paused === false){
-      background(75);
       gameDrawLoop();
     }
     gameConstantDrawLoop();
@@ -61,12 +63,14 @@ function gameDrawLoop(){
 }
 
 function gameMenuDrawLoop(){
-  rect(width/2, (height-150)/2, height-300, height-300);
+  rect(width/2, (height/2-height/12), height*2/3, height*2/3);
   displayGameMenuGrid();
 }
 
 function gameConstantDrawLoop(){
 }
+
+
 
 function create2dArray(rows, columns){
   let emptyArray = [];
@@ -80,15 +84,18 @@ function create2dArray(rows, columns){
 }
 
 function displayGameMenuGrid(){
-  for (let y = 0; y < gridSize; y++){
-    for (let x = 0; x < gridSize; x++){
+  translate(width/2-height/3, height/2-height/12-height/3);
+  for (let y = 0; y < menuGridSize; y++){
+    for (let x = 0; x < menuGridSize; x++){
       if (gameMenuGrid[y][x] === 0){
         fill(255)
       }
       else{
         fill(0)
       }
-      rect(x*cellSize, y*cellSize, cellSize, cellSize);
+      rectMode(CORNER);
+      rect(x*menuScalar, y*menuScalar, menuScalar, menuScalar);
+      rectMode(CENTER)
     }
   }
 }
