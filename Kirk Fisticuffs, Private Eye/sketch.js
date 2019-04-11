@@ -12,10 +12,11 @@ let menuSize;
 let gameMenuGrid;
 let menuGridSize;
 let menuScalar;
+let toolBar;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  menuScalar = height/12
+  menuScalar = height/7.5
   menuSize = height-menuScalar*4
   gameMode = "game";
   paused = false;
@@ -24,10 +25,10 @@ function setup() {
 
   menuGridSize = 5;
   gameMenuGrid = create2dArray(menuGridSize, menuGridSize);
+  toolBar = ["empty", "empty", "empty", "empty", "empty",];
 }
 
 function draw() {
-  background(75);
   if (gameMode === "menu"){
   }
 
@@ -36,6 +37,7 @@ function draw() {
       gameMenuDrawLoop();
     }
     if (paused === false){
+      background(75);
       gameDrawLoop();
     }
     gameConstantDrawLoop();
@@ -59,15 +61,17 @@ function windowResized(){
 
 
 function gameDrawLoop(){
-  rect(mouseX, mouseY, 50, 50);
+  rect(mouseX, mouseY, height/12, height/12);
 }
 
 function gameMenuDrawLoop(){
-  rect(width/2, (height/2-height/12), height*2/3, height*2/3);
+  rect(width/2, (height/2-height/24), height*3/4, height*3/4);
   displayGameMenuGrid();
 }
 
 function gameConstantDrawLoop(){
+  rectMode(CENTER);
+  rect(width/2, height - height/24, height*5/12, height/12)
 }
 
 
@@ -84,6 +88,7 @@ function create2dArray(rows, columns){
 }
 
 function displayGameMenuGrid(){
+  push();
   translate(width/2-height/3, height/2-height/12-height/3);
   for (let y = 0; y < menuGridSize; y++){
     for (let x = 0; x < menuGridSize; x++){
@@ -98,4 +103,5 @@ function displayGameMenuGrid(){
       rectMode(CENTER)
     }
   }
+  pop();
 }
