@@ -16,7 +16,7 @@ let toolBar;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  menuScalar = height/7.5
+  menuScalar = height*3/20
   menuSize = height-menuScalar*4
   gameMode = "game";
   paused = false;
@@ -89,7 +89,7 @@ function create2dArray(rows, columns){
 
 function displayGameMenuGrid(){
   push();
-  translate(width/2-height/3, height/2-height/12-height/3);
+  translate(width/2 - height*3/8, (height/2-height/24) - height*3/8);
   for (let y = 0; y < menuGridSize; y++){
     for (let x = 0; x < menuGridSize; x++){
       if (gameMenuGrid[y][x] === 0){
