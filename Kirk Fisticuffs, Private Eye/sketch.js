@@ -8,24 +8,24 @@
 
 let gameMode;
 let paused;
-let menuSize;
-let gameMenuGrid;
-let menuGridSize;
-let menuScalar;
+let inventorySize;
+let inventoryGridSize;
+let inventoryGrid;
+let inventoryScalar;
 let toolBar;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  menuScalar = height*3/20
-  menuSize = height-menuScalar*4
+  inventoryGridSize = 8;
+  inventoryScalar = height*3/4/inventoryGridSize;
+  inventorySize = height-inventoryScalar*4
   gameMode = "game";
   paused = false;
 
   rectMode(CENTER)
 
-  menuGridSize = 5;
-  gameMenuGrid = create2dArray(menuGridSize, menuGridSize);
-  toolBar = ["empty", "empty", "empty", "empty", "empty",];
+  inventoryGrid = create2dArray(inventoryGridSize, inventoryGridSize);
+  toolBar = [0, 0, 0, 0];
 }
 
 function draw() {
@@ -66,7 +66,7 @@ function gameDrawLoop(){
 
 function gameMenuDrawLoop(){
   rect(width/2, (height/2-height/24), height*3/4, height*3/4);
-  displayGameMenuGrid();
+  displayinventoryGrid();
 }
 
 function gameConstantDrawLoop(){
@@ -87,19 +87,20 @@ function create2dArray(rows, columns){
   return emptyArray;
 }
 
-function displayGameMenuGrid(){
+function displayinventoryGrid(){
   push();
   translate(width/2 - height*3/8, (height/2-height/24) - height*3/8);
-  for (let y = 0; y < menuGridSize; y++){
-    for (let x = 0; x < menuGridSize; x++){
-      if (gameMenuGrid[y][x] === 0){
-        fill(255)
+  for (let y = 0; y < inventoryGridSize; y++){
+    for (let x = 0; x < inventoryGridSize; x++){
+      if (inventoryGrid[y][x] === 0){
+        noStroke()
+        fill("darkBrown")
       }
       else{
         fill(0)
       }
       rectMode(CORNER);
-      rect(x*menuScalar, y*menuScalar, menuScalar, menuScalar);
+      rect(x*inventoryScalar, y*inventoryScalar, inventoryScalar, inventoryScalar);
       rectMode(CENTER)
     }
   }
