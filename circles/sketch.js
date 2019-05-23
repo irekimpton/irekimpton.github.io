@@ -12,17 +12,17 @@ function setup() {
 
 function draw() {
   background(75);
-  circles(600);
+  circles(220);
 }
 
 function circles(num){
   if (num === 0){
-    ellipse(width/2, height/2, height/2)
+    ellipse(width/2, height/2, height)
   }
   else{
     let scalar = 2^num
     for (let i = 0; i < scalar; i++){
-      ellipse(i*(width/scalar), height/2, width/scalar);
+      ellipse(i*(width/(scalar+1)), height/2, width/scalar);
     }
     circles(num-1);
   }
